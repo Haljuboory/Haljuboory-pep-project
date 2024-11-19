@@ -75,12 +75,12 @@ public class SocialMediaController {
     }
 
     public void getAllMessagesHandler(Context ctx){
-        List<Message> messages = messageService.getAllMessagesHandler();
+        List<Message> messages = messageService.getAllMessages();
         ctx.json(messages);
     }
 
     private void getAvailableMessagesHandler(Context ctx){
-        ctx.json(messageService.getAvailableMessagesHandler());
+        ctx.json(messageService.getAllAvailableMessages());
     }
 
 }

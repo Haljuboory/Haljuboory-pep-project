@@ -111,13 +111,14 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "UPDATE message SET departure_city =?, arrival_city =? WHERE flight_id = ?;";
+            String sql = "UPDATE message SET posted_by=?, message_text=?, time_posted_epoch=? WHERE message_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write PreparedStatement setString and setInt methods here.
-            preparedStatement.setString(1, flight.getDeparture_city());
-            preparedStatement.setString(2, flight.getArrival_city());
-            preparedStatement.setInt(3, id);
+            preparedStatement.setInt(1, message.getPosted_by());
+            preparedStatement.setString(2, message.getMessage_text());
+            preparedStatement.setLong(3, message.getTime_posted_epoch());
+            preparedStatement.setInt(4, id);
 
 
             preparedStatement.executeUpdate();

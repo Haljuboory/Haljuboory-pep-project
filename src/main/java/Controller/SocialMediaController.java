@@ -36,7 +36,7 @@ public class SocialMediaController {
         app.post("/messages", this::postMessageHandler);
         app.get("/accounts", this::getAllAccountsHandler);
         app.post("/accounts", this::postAccountHandler);
-        app.get("/messages/available", this::getAvailableMessagesHandler);
+        app.get("/messages", this::getAvailableMessagesHandler);
         
         
 

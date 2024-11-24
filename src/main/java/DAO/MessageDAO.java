@@ -128,11 +128,6 @@ public class MessageDAO {
         
     }
 
-
-
-
-
-
     /**
      * TODO: retrieve all books from the Book table with copies_available over zero.
      * You only need to change the sql String with a query that utilizes a WHERE clause.

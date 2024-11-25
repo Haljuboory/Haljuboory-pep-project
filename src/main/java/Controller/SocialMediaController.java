@@ -34,10 +34,10 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.get("/messages", this::getAllMessagesHandler);
         app.post("/messages", this::postMessageHandler);
-        app.get("/accounts", this::getAllAccountsHandler);
-        app.post("/accounts", this::postAccountHandler);
-        app.get("/messages/available", this::getAvailableMessagesHandler);
-        app.get("/register/accounts", this::getAllAccountsHandler);
+        app.get("/login", this::getLoginAccountsHandler);
+        app.post("/register", this::postAccountHandler);
+        app.get("accounts/{account_id}/messages", this::getAllUserMessagesHandler);
+        four more
         
         
 
@@ -59,8 +59,8 @@ public class SocialMediaController {
         }
     }
 
-    private void getAllAccountsHandler(Context ctx) {
-        List<Account> accounts = accountService.getAllAccounts();
+    private void getLoginAccountsHandler(Context ctx) {
+        List<Account> accounts = accountService.getLoginAccounts();
         ctx.json(accounts);
     }
 
@@ -75,13 +75,14 @@ public class SocialMediaController {
         }
     }
 
-    public void getAllMessagesHandler(Context ctx){
+    public void getAllMessagesHandler(Context ctx) throws JsonProcessingException{
         List<Message> messages = messageService.getAllMessages();
         ctx.json(messages);
     }
 
-    private void getAvailableMessagesHandler(Context ctx){
-        ctx.json(messageService.getAllAvailableMessages());
+    private void getAllUserMessagesHandler(Context ctx) throws JsonProcessingException{
+        int id= Integer.parseInt(ctx.pathParam("account_id"));
+        ctx.json(messageService.getAllUserMessages(id));
     }
 
 }

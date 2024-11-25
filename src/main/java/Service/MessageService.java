@@ -40,6 +40,7 @@ public class MessageService {
      * @param book a book object.
      * @return book if it was successfully persisted, null if it was not successfully persisted (eg if the book primary
      * key was already in use.)
+     * should not br blank 2 more conditions.
      */
     public Message addMessage(Message message) {
         
@@ -56,9 +57,12 @@ public class MessageService {
      * TODO: Use the bookDAO to retrieve a list of all books that have a bookCount above 0.
      * @return all available books (bookCount over zero)
      */
-    public List<Message> getAllAvailableMessages() {
-        return messageDAO.getMessagesWithMessageCountOverZero();
+    public List<Message> getAllUserMessages(int id) {
+        return messageDAO.getAllUserMessages(id);
     }
 
-
+delete
+update 
+getMessagebyid
+    public get
 }

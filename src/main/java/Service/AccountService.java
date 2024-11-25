@@ -23,13 +23,19 @@ public class AccountService {
 
     public Account addAccount(Account account) {
         Account addAccount = accountDAO.insertAccount(account);
-            if (addAccount != null){
+            if (addAccount != null &&  && &&){
                 return addAccount;
             }
         return null;
     }
 
-
+    public Account loginAccount(Account account) {
+        Account addAccount = accountDAO.userLogin(account);
+            if (addAccount != null){
+                return addAccount;
+            }
+        return null;
+    } 
 
 
 

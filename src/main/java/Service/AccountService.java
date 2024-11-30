@@ -21,6 +21,11 @@ public class AccountService {
         return accountDAO.getAllAccounts();
     }
 
+    /*
+     * the username is not blank
+     * the password is at least 4 characters long
+     * Account with that username does not already exist
+     */
     public Account addAccount(Account account) {
         Account addAccount = accountDAO.insertAccount(account);
             if (addAccount != null &&  && &&){

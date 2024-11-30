@@ -32,12 +32,14 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
+        app.post("/register", this::postAccountHandler);
+        app.get("/login", this::getLoginAccountsHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.post("/messages", this::postMessageHandler);
-        app.get("/login", this::getLoginAccountsHandler);
-        app.post("/register", this::postAccountHandler);
+        app.get("/messages/{message_id}", this::postMessageByIdHandler);
+        app.get("/messages/{message_id}", this::postDeleteMessageHandler);
+        app.get("/messages/{message_id}", this::postUpdateMessageHandler);
         app.get("accounts/{account_id}/messages", this::getAllUserMessagesHandler);
-        four more
         
         
 

@@ -9,7 +9,7 @@ public class MessageService {
     public MessageDAO messageDAO;
 
     /**
-     * No-args constructor for bookService which creates a BookDAO.
+     * 
      * 
      */
     public MessageService(){
@@ -26,21 +26,16 @@ public class MessageService {
         this.messageDAO = messageDAO;
     }
     /**
-     * TODO: Use the messageDAO to retrieve all books.
-     * @return all books.
+     * 
+     * 
      */
     public List<Message> getAllMessages() {
         return messageDAO.getAllMessages();
     }
 
     /**
-     * TODO: Use the messageDAO to persist a book to the database.
-     * An Id will be provided in message. Method should check if the message ISBN already exists before it attempts to
-     * persist it.
-     * @param book a book object.
-     * @return book if it was successfully persisted, null if it was not successfully persisted (eg if the book primary
-     * key was already in use.)
-     * should not br blank 2 more conditions.
+     * 
+     * should not be blank 2 more conditions.
      */
     public Message addMessage(Message message) {
         
@@ -53,10 +48,7 @@ public class MessageService {
             
         return messageDAO.insertMessage(message);
     }
-    /**
-     * TODO: Use the bookDAO to retrieve a list of all books that have a bookCount above 0.
-     * @return all available books (bookCount over zero)
-     */
+   
     public List<Message> getAllUserMessages(int id) {
         return messageDAO.getAllUserMessages(id);
     }

@@ -70,7 +70,7 @@ public class MessageDAO {
      * database, and as a primary key, it would make sense for the client to submit an ISBN when submitting a book.
      * You only need to change the sql String and leverage PreparedStatement's setString and setInt methods.
      */
-    public Message insertMessage(Message message){
+    public Message addMessage(Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here

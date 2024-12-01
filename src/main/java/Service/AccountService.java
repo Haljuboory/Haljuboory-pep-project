@@ -47,22 +47,22 @@ public class AccountService {
         finally{
             System.out.println("User Name or password or Account Information is incorrect");
         }
-        
 
         Account addAccount = accountDAO.insertAccount(account);
             
                 return addAccount;
             }
-        return null;
-    }
-
-    public Account loginAccount(Account account) {
-        Account addAccount = accountDAO.userLogin(account);
-            if (addAccount != null){
-                return addAccount;
+            
+        public Account loginAccount(Account account) {
+        account = accountDAO.userLogin(account);
+            if (account != null){
+                return account;
             }
         return null;
     } 
+    }
+
+    
 
 
 

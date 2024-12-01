@@ -47,6 +47,7 @@ public class AccountDAO {
      * You only need to change the sql String and leverage PreparedStatements' setString methods.
      */
     public Account insertAccount(Account account){
+
         Connection connection = ConnectionUtil.getConnection();
         try {
 //          Write SQL logic here. You should only be inserting with the name column, so that the database may
@@ -68,6 +69,8 @@ public class AccountDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
+    
+     
         return null;
     }
     public Account getAccountByUserName(String username){

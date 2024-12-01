@@ -16,13 +16,14 @@ import java.util.List;
  * found in readme.md as well as the test cases. You should
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
+
 public class SocialMediaController {
     AccountService accountService;
     MessageService messageService;
 
     public SocialMediaController(){
-        this.accountService = new AccountService();
-        this.messageService = new MessageService();
+        accountService = new AccountService();
+        messageService = new MessageService();
     }
     
     /**
@@ -36,9 +37,9 @@ public class SocialMediaController {
         app.get("/login", this::getLoginAccountsHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.post("/messages", this::postMessageHandler);
-        app.get("/messages/{message_id}", this::postMessageByIdHandler);
-        app.get("/messages/{message_id}", this::postDeleteMessageHandler);
-        app.get("/messages/{message_id}", this::postUpdateMessageHandler);
+        app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        app.post("/messages/{message_id}", this::postDeleteMessageHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
         app.get("accounts/{account_id}/messages", this::getAllUserMessagesHandler);
         
         
@@ -53,6 +54,7 @@ public class SocialMediaController {
     private void postAccountHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
+        System.out.println("Account:"+account);
         Account addedAccount = accountService.addAccount(account);
         if(addedAccount!=null){
             ctx.json(mapper.writeValueAsString(addedAccount));
@@ -62,7 +64,7 @@ public class SocialMediaController {
     }
 
     private void getLoginAccountsHandler(Context ctx) {
-        List<Account> accounts = accountService.getLoginAccounts();
+        List<Account> accounts = accountService.getAllAccounts();
         ctx.json(accounts);
     }
 
@@ -87,4 +89,25 @@ public class SocialMediaController {
         ctx.json(messageService.getAllUserMessages(id));
     }
 
+    private void getMessageByIdHandler(Context ctx) throws JsonProcessingException{
+        int message_id= Integer.parseInt(ctx.pathParam("message_id"));
+        ctx.json(new MessageService().getMessagebyid(message_id));
+    }
+    private void postDeleteMessageHandler(Context ctx) throws JsonProcessingException{
+        int message_id= Integer.parseInt(ctx.pathParam("message_id"));
+        ctx.json(new MessageService().deleteMessagebyid(message_id));
+    }
+    private void updateMessageHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(),  Message.class);
+        Message updatedMessage = messageService.updateMessage(message);
+        if(updatedMessage!=null){
+            ctx.json(mapper.writeValueAsString(updatedMessage));
+        }else{
+            ctx.status(400);
+        }
+        
+    }
+
 }
+

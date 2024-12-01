@@ -107,14 +107,14 @@ public class MessageDAO {
      * @param message
      */
 
-    public void updateMessage(int id, Message message){
+    public void updateMessage( Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "UPDATE message SET message_text=? WHERE message_id=?;";
+            String sql = "UPDATE message SET message_text=? WHERE message_id=" + message.message_id;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, message.getMessage_text());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, message.getMessage_id());
 
 
             preparedStatement.executeUpdate();
@@ -124,22 +124,19 @@ public class MessageDAO {
         
     }
 
-    /**
-     * TODO: retrieve all books from the Book table with copies_available over zero.
-     * You only need to change the sql String with a query that utilizes a WHERE clause.
-     * @returnall books with book count > 0.
-     */
-    public List<Message> getAllUserMessages(){
+    
+    public List<Message> getAllUserMessages(int posted_by){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
+        Message message = null;
         try {
             //Write SQL logic here
-            String sql = "SELECT * FROM message WHERE posted_by = ?;";
+            String sql = "SELECT * FROM message WHERE posted_by = " + posted_by;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                Message message = new Message(rs.getInt("message_id"),
+                message = new Message(rs.getInt("message_id"),
                         rs.getInt("posted_by"),
                         rs.getString("message_text"),
                         rs.getLong("time_posted_epoch"));
@@ -149,6 +146,23 @@ public class MessageDAO {
             System.out.println(e.getMessage());
         }
         return messages;
+    }
+
+    public Message deleteMessagebyid(int message_id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "DELETE * FROM message WHERE message_id = " + message_id;
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.executeQuery();
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
     }
 
 }

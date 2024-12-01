@@ -1,6 +1,7 @@
 package Service;
 
 import DAO.MessageDAO;
+import Model.Account;
 import Model.Message;
 
 import java.util.List;
@@ -15,13 +16,7 @@ public class MessageService {
     public MessageService(){
         messageDAO = new MessageDAO();
     }
-    /**
-     * Constructor for a MessageService when a MessageDAO is provided.
-     * This is used for when a mock MessageDAO that exhibits mock behavior is used in the test cases.
-     * This would allow the testing of MessageService independently of MessageDAO.
-     * 
-     * @param bookDAO
-     */
+    
     public MessageService(MessageDAO messageDAO){
         this.messageDAO = messageDAO;
     }
@@ -49,12 +44,22 @@ public class MessageService {
         return messageDAO.insertMessage(message);
     }
    
-    public List<Message> getAllUserMessages(int id) {
-        return messageDAO.getAllUserMessages(id);
+    public List<Message> getAllUserMessages(int posted_by) {
+        return messageDAO.getAllUserMessages(posted_by);
     }
 
-delete
-update 
-getMessagebyid
-    public get
+    public Message getMessagebyid(int message_id){
+        Message message = messageDAO.getMessageById(message_id);
+        return message;
+    }
+
+    public Message updateMessage( Message message){
+        messageDAO.updateMessage(message);
+        return null;
+    }
+    public Message deleteMessagebyid(int message_id){
+     messageDAO.deleteMessagebyid(message_id);
+     return null;
+    
+    }
 }

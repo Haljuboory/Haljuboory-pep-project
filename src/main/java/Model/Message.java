@@ -60,7 +60,7 @@ public class Message {
      * Properly named getters and setters are necessary for Jackson ObjectMapper to work. You may use them as well.
      * @return message_id
      */
-    public boolean getMessage_id() {
+    public int getMessage_id() {
         return message_id;
     }
     /**

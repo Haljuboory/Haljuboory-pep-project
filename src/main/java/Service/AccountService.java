@@ -25,7 +25,7 @@ public class AccountService {
     /*
      * the username is not blank
      * the password is at least 4 characters long
-     * Account with that username does not already exist
+     * and an Account with that username does not already exist
      */
     public Account addAccount(Account account)  {
         
@@ -35,29 +35,29 @@ public class AccountService {
                 if((account.password.length() > 4)){
                    return account;
                 }
-                Account acct = accountDAO.getAccountByUserName(account.username);
-                if(!account.username.equalsIgnoreCase(acct.username)){
-              
+            Account acct = accountDAO.getAccountByUserName(account.username);
+            
+            if(!account.username.equalsIgnoreCase(acct.username)){
                 return null;
-            }
-        } 
-        } catch (Exception e) {
+                    }
+                } 
+            } catch (Exception e) {
          e.printStackTrace();
         }
-
         Account addAccount = accountDAO.insertAccount(account);
-            
                 return addAccount;
-            }
+    }
+
             
-        public Account loginAccount(Account account) {
+    public Account loginAccount(Account account) {
         Account login = accountDAO.loginAccount(account);
             if (account != null){
                 return login;
             }
         return null;
-    } 
     }
+ 
+}
 
     
 

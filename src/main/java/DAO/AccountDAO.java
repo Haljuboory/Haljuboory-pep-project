@@ -32,23 +32,13 @@ public class AccountDAO {
         return accounts;
     }
 
-    /*
-     * creat a new account
-     * 
-     * public Account registerAccount(Account account) throws SQLException{
-     String sql = ""}
-
-     */
-
     /**
-     * 
+     * creat a new account
      */
     public Account insertAccount(Account account){
 
         Connection connection = ConnectionUtil.getConnection();
         try {
-//          Write SQL logic here. You should only be inserting with the name column, so that the database may
-//          automatically generate a primary key.
             String sql = "INSERT INTO account (username, password) VALUES (?, ?);" ;
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -66,10 +56,10 @@ public class AccountDAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-    
-     
         return null;
     }
+
+
     public Account getAccountByUserName(String username){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -83,12 +73,12 @@ public class AccountDAO {
                 rs.getString("password"));
                 return account;
                 }
-
             } catch (SQLException e) {
                  System.out.println(e.getMessage());
         }
         return null;
     }
+
 
     public Account loginAccount(Account account){
         Connection connection = ConnectionUtil.getConnection();

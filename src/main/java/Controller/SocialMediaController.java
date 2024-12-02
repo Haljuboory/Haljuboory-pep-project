@@ -34,7 +34,7 @@ public class SocialMediaController {
     public Javalin startAPI() {
         Javalin app = Javalin.create();
         app.post("/register", this::postAccountHandler);
-        app.get("/login", this::getLoginAccountsHandler);
+        app.get("/login", this::getLoginAccountHandler);
         app.get("/messages", this::getAllMessagesHandler);
         app.post("/messages", this::postAddMessageHandler);
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
@@ -63,8 +63,8 @@ public class SocialMediaController {
         }
     }
 
-    private void getLoginAccountsHandler(Context ctx) {
-        List<Account> accounts = accountService.getAllAccounts();
+    private void getLoginAccountHandler(Context ctx) {
+        List<Account> accounts = accountService.getLoginAccount();
         ctx.json(accounts);
     }
 
@@ -94,8 +94,14 @@ public class SocialMediaController {
         ctx.json(new MessageService().getMessagebyid(message_id));
     }
     private void postDeleteMessageHandler(Context ctx) throws JsonProcessingException{
-        int message_id= Integer.parseInt(ctx.pathParam("message_id"));
-        ctx.json(new MessageService().deleteMessagebyid(message_id));
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(),  Message.class);
+        Message deletedMessage = messageService.deleteMessagebyid(message);
+        if(deletedMessage !=null){
+            ctx.json(mapper.writeValueAsString(deletedMessage));
+        }else{
+            ctx.status(200);
+        }
     }
     private void updateMessageHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();

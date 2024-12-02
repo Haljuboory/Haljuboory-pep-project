@@ -9,15 +9,13 @@ import java.util.List;
 
 public class MessageDAO {
     /**
-     * TODO: retrieve all books from the Book table.
-     * You only need to change the sql String.
-     * @return all Books.
+     * 
      */
     public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
-            //Write SQL logic here
+            
             String sql = "SELECT * FROM message;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = preparedStatement.executeQuery();
@@ -35,18 +33,14 @@ public class MessageDAO {
     }
 
     /**
-     * TODO: retrieve a book from the Book table, identified by its isbn.
-     * You only need to change the sql String and leverage PreparedStatement's setString and setInt methods.
-     * @return a book identified by isbn.
+     * 
      */
     public Message getMessageById(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            //Write SQL logic here
             String sql = "SELECT * FROM message WHERE message_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //write preparedStatement's setInt method here.
             preparedStatement.setInt(1, message_id);
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -64,20 +58,14 @@ public class MessageDAO {
     }
 
     /**
-     * TODO: insert a book into the Book table.
-     * Unlike some of the other insert problems, the primary key here will be provided by the client as part of the
-     * Book object. Given the specific nature of an ISBN as both a numerical organization of books outside of this
-     * database, and as a primary key, it would make sense for the client to submit an ISBN when submitting a book.
-     * You only need to change the sql String and leverage PreparedStatement's setString and setInt methods.
+     * 
      */
     public Message addMessage(Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            //Write SQL logic here
+            
             String sql = "INSERT INTO message (posted_by, message_text, time_posted_epoch) VALUES ( ?, ?, ?);" ;
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            //write preparedStatement's setString and setInt methods here.
             
             preparedStatement.setInt(1, message.getPosted_by());
             preparedStatement.setString(2, message.getMessage_text());
@@ -111,7 +99,7 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
-            String sql = "UPDATE message SET message_text=? WHERE message_id=" + message.message_id;
+            String sql = "UPDATE message SET message_text=? WHERE message_id= ?" + message.message_id;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, message.getMessage_text());
             preparedStatement.setInt(2, message.getMessage_id());
@@ -131,7 +119,7 @@ public class MessageDAO {
         Message message = null;
         try {
             //Write SQL logic here
-            String sql = "SELECT * FROM message WHERE posted_by = " + posted_by;
+            String sql = "SELECT * FROM message WHERE posted_by = ?" + posted_by;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -148,18 +136,28 @@ public class MessageDAO {
         return messages;
     }
 
-    public Message deleteMessagebyid(int message_id){
+    public Message deleteMessagebyid(Message message_id){
         Connection connection = ConnectionUtil.getConnection();
+        List<Message> messages = new ArrayList<>();
         try {
-            String sql = "DELETE * FROM message WHERE message_id = " + message_id;
+            String sql = "DELETE * FROM message WHERE message_id = ?;" ;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.executeQuery();
-            
+            preparedStatement.setInt(1, message_id.getMessage_id());
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            while(rs.next()){
+               Message message = new Message(rs.getInt("message_id"),
+                        rs.getInt("posted_by"),
+                        rs.getString("message_text"),
+                        rs.getLong("time_posted_epoch"));
+                messages.remove(message);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
         }
+            
         return null;
 
 

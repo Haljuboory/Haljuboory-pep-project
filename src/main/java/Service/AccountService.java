@@ -33,19 +33,16 @@ public class AccountService {
         {
             if (account != null){
                 if((account.password.length() > 4)){
-                   // return "Pass word Length Less";
+                   return account;
                 }
                 Account acct = accountDAO.getAccountByUserName(account.username);
                 if(!account.username.equalsIgnoreCase(acct.username)){
               
-                //thorw exception
+                return null;
             }
         } 
         } catch (Exception e) {
          e.printStackTrace();
-        }
-        finally{
-            System.out.println("User Name or password or Account Information is incorrect");
         }
 
         Account addAccount = accountDAO.insertAccount(account);
@@ -54,9 +51,9 @@ public class AccountService {
             }
             
         public Account loginAccount(Account account) {
-        account = accountDAO.userLogin(account);
+        Account login = accountDAO.loginAccount(account);
             if (account != null){
-                return account;
+                return login;
             }
         return null;
     } 
@@ -83,4 +80,4 @@ public class AccountService {
 
 
 
-}
+

@@ -4,6 +4,8 @@ import DAO.MessageDAO;
 import Model.Account;
 import Model.Message;
 
+import static org.junit.Assume.assumeNotNull;
+
 import java.util.List;
 
 public class MessageService {
@@ -42,12 +44,12 @@ public class MessageService {
                 return null;
              if(message.message_text.length() > 255)
                 return null;
-             if(message.posted_by.equals(account_id))
+             if(message.posted_by == message.message_id)
                 return message;
                 
             
             } catch (Exception e) {
-            // TODO: handle exception
+            
         }
         return messageDAO.addMessage(message);
     }
@@ -65,7 +67,7 @@ public class MessageService {
         messageDAO.updateMessage(message);
         return null;
     }
-    public Message deleteMessagebyid(int message_id){
+    public Message deleteMessagebyid(Message message_id){
      messageDAO.deleteMessagebyid(message_id);
      return null;
     

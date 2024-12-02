@@ -1,5 +1,6 @@
 package Service;
 
+import DAO.AccountDAO;
 import DAO.MessageDAO;
 import Model.Account;
 import Model.Message;
@@ -10,12 +11,14 @@ import java.util.List;
 
 public class MessageService {
     public MessageDAO messageDAO;
+    public AccountDAO accountDAO;
 
     /**
      * 
      * 
      */
     public MessageService(){
+        accountDAO = new AccountDAO();
         messageDAO = new MessageDAO();
     }
     
@@ -39,22 +42,17 @@ public class MessageService {
      * 
      */
     public Message addMessage(Message message) {
-        message = messageDAO.addMessage(message);
-        try {
-            if (!message.message_text.isBlank())
-                return message;
-             if(message.message_text.length() < 255)
-                return message;
-             if(message.posted_by == message.message_id)
-                return message;
-                
-            
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            
-        }
-        return messageDAO.addMessage(message);
-    }
+        //message = messageDAO.addMessage(message);
+       
+            if (!message.message_text.isBlank() && 
+
+            message.message_text.length() < 255 &&
+
+            accountDAO.getAccountById(message.getPosted_by())){
+                return messageDAO.addMessage(message);
+             }
+             return null;
+    }   
 
    
     public List<Message> getAllUserMessages(int posted_by) {
@@ -73,29 +71,24 @@ public class MessageService {
      * and the new message_text is not blank 
      * and is not over 255 characters.
      */
-    public Message updateMessage( Message message){
-         messageDAO.updateMessage(message);
-        
-        try {
-            if(message.message_id != null){
-                return message;
-            }
-            if (!message.message_text.isBlank())
-                return message;
-             if(message.message_text.length() < 255)
-                return message;
-             
-                
-            
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+    public Message updateMessage( Message message, int id){
+         Message message1 = messageDAO.getMessageById(id);
+        if(message1 != null && !message.message_text.isBlank() 
+                            && message.message_text.length() < 255){
+              messageDAO.updateMessage(message, id);
+        return messageDAO.getMessageById(id);                  
         }
-        return messageDAO.updateMessage(message);
+        return null;
+        
     }
         
     
     public  Message deleteMessagebyid(int message){
-     messageDAO.deleteMessagebyid(message);
+        Message message1 = messageDAO.getMessageById(message);
+        if(message1 != null){
+           messageDAO.deleteMessagebyid(message); 
+        }
+     
      return null;
     
     }

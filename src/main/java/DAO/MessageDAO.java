@@ -97,18 +97,18 @@ public class MessageDAO {
      * @return 
      */
 
-    public  Message updateMessage(Message message){
+    public  Message updateMessage(Message message, int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
             String sql = "UPDATE message SET message_text=? WHERE message_id= ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, message.getMessage_text());
-            preparedStatement.setInt(2, message.message_id);
+            preparedStatement.setInt(2, id);
 
             preparedStatement.executeUpdate();
 
-            return message;
+            //return message;
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -122,7 +122,7 @@ public class MessageDAO {
         Message message = null;
         try {
             //Write SQL logic here
-            String sql = "SELECT * FROM message WHERE posted_by = ?" + posted_by;
+            String sql = "SELECT * FROM message WHERE posted_by = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -142,13 +142,14 @@ public class MessageDAO {
     public Message deleteMessagebyid(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
+            Message msg = getMessageById(message_id);
             String sql = "DELETE * FROM message WHERE message_id = ?;" ;
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, message_id);
 
-            preparedStatement.executeQuery();
-            //return message_id;
+            preparedStatement.executeUpdate();
+            return msg;
 
             }catch(SQLException e){
             System.out.println(e.getMessage());

@@ -29,29 +29,26 @@ public class AccountService {
      */
     public Account addAccount(Account account)  {
         
-        try 
-        {
-            if (account != null){
-                if((account.password.length() > 4)){
-                   return account;
+        
+            if (account.getPassword().length() < 4 || account.getUsername().isBlank()){
+                   return null;
                 }
-            Account acct = accountDAO.getAccountByUserName(account.username);
-            
-            if(!account.username.equalsIgnoreCase(acct.username)){
-                return null;
-                    }
-                } 
-            } catch (Exception e) {
-         e.printStackTrace();
-        }
-        Account addAccount = accountDAO.insertAccount(account);
+            //Account acct = accountDAO.getAccountByUserName(account.username);
+            List<Account> a  = getAllAccounts();
+            for(Account ac : a){
+                if(ac.getAccount_id() == account.getAccount_id()){
+                    return null;
+                }
+            }
+
+            Account addAccount = accountDAO.insertAccount(account);
                 return addAccount;
     }
 
             
     public Account loginAccount(Account account) {
         Account login = accountDAO.loginAccount(account);
-            if (account != null){
+            if (login != null){
                 return login;
             }
         return null;

@@ -63,7 +63,7 @@ public class AccountDAO {
     public boolean getAccountById(int id){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "SELECT * FROM account WHERE username = ?;";
+            String sql = "SELECT * FROM account WHERE account_id = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();

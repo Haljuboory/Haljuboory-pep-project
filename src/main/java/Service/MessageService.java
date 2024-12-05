@@ -61,8 +61,8 @@ public class MessageService {
 
 
     public Message getMessagebyid(int message_id){
-        Message message = messageDAO.getMessageById(message_id);
-        return message;
+        return messageDAO.getMessageById(message_id);
+         
     }
 
     /*
@@ -86,7 +86,7 @@ public class MessageService {
     public  Message deleteMessagebyid(int message){
         Message message1 = messageDAO.getMessageById(message);
         if(message1 != null){
-           messageDAO.deleteMessagebyid(message); 
+           return messageDAO.deleteMessagebyid(message); 
         }
      
      return null;
